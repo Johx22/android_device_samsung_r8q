@@ -29,5 +29,5 @@ odm		/odm		ext4							wait,logical,first_stage_mount
 /vbmeta_system	emmc		/dev/block/bootdevice/by-name/vbmeta_system
 
 # Removable storage
-/external_sd	vfat		/dev/block/mmcblk0p1 /dev/block/mmcblk0					flags=fsflags="nosuid,nodev,utf8";display="Micro-SD";storage;wipeingui;removable
-/usb-otg	    vfat		/dev/block/sda1	/dev/block/sda				          flags=fsflags=utf8;display="USB-OTG";storage;wipeingui;removable
+/external_sd	 vfat		/dev/block/mmcblk0p1 /dev/block/mmcblk0					flags=fsflags=utf8;display="Micro-SD";storage;wipeingui;removable
+/usb-otg	     vfat		/dev/block/sdd1	/dev/block/sdd				          flags=fsflags=utf8;display="USB-OTG";storage;wipeingui;removable
