@@ -24,15 +24,11 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-on early-init
-    setprop sys.usb.configfs 0
 
-on init
+on boot
     write /proc/sys/kernel/panic_on_oops 2
-    write /sys/class/power_supply/usb/otg_switch 1
 
     write /sys/class/android_usb/android0/iSerial ${ro.serialno}
-    mkdir /config
     mount configfs none /config
     mkdir /config/usb_gadget/g1 0770
     mkdir /config/usb_gadget/g2 0770
@@ -90,16 +86,9 @@ on init
     mkdir /dev/usb-ffs/fastboot 0770 shell system
     mount functionfs fastboot /dev/usb-ffs/fastboot uid=2000,gid=1000,rmode=0770,fmode=0660
     setprop vendor.usb.controller ${sys.usb.controller}
-    setprop sys.usb.configfs 1
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
-
-on property:ro.boot.usbconfigfs=false
-   setprop sys.usb.configfs 0
-
-on property:ro.boot.recover_usb=*
-    write /sys/bus/platform/devices/a600000.ssusb/mode "peripheral"
 
 on property:sys.usb.config=none
     write /config/usb_gadget/g1/UDC "none"
@@ -114,7 +103,7 @@ on property:sys.usb.config=none
 on property:sys.usb.config=mtp,adb
     start adbd
 
-on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_adb"
     rm /config/usb_gadget/g1/configs/b.1/f1
     rm /config/usb_gadget/g1/configs/b.1/f2
